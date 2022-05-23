@@ -7,15 +7,9 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    inPerson: {
-      type: Boolean,
-      default: true,
-    },
-    
-    endDate: {
-      type: Date,
-      // Sets a default value of 12 weeks from now
-      default: () => new Date(+new Date() + 84 * 24 * 60 * 60 * 1000),
+    email: {
+      type: String,
+      required: true,
     },
     thoughts: [
       {
@@ -34,7 +28,7 @@ const userSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
-    id: false,
+    _id: false,
   }
 );
 
