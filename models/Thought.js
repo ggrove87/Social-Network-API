@@ -4,8 +4,12 @@ const reactionSchema = require('./Reaction');
 // Schema to create Thought model
 const thoughtSchema = new Schema(
   {
+    thoughtId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(),
+    },
     thoughtText: {
-      type: Text,
+      type: String,
       required: true,
       max_length: 5000,
     },

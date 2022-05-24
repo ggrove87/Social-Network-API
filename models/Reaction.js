@@ -2,16 +2,16 @@ const { Schema, Types } = require('mongoose');
 
 const reactionSchema = new Schema(
   {
-    assignmentId: {
+    reactionId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId(),
     },
-    assignmentName: {
+    reactionName: {
       type: String,
       required: true,
       maxlength: 50,
       minlength: 4,
-      default: 'Unnamed assignment',
+      default: 'Unnamed reaction',
     },
     score: {
       type: Number,
