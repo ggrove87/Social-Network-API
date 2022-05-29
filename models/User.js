@@ -6,10 +6,13 @@ const userSchema = new Schema(
     userName: {
       type: String,
       required: true,
+      unique: true,
+      trim: true
     },
     email: {
       type: String,
       required: true,
+      validate:{}
     },
     thoughts: [
       {
@@ -26,10 +29,14 @@ const userSchema = new Schema(
   },
   {
     toJSON: {
+      getters: true,  
       virtuals: true,
     },
     _id: false,
-  }
+  },
+  userSchema.virtual('FriendCount').get(function() {
+    return this.friends.length;
+  })
 );
 
 const User = model('user', userSchema);

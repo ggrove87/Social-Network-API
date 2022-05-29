@@ -4,10 +4,6 @@ const reactionSchema = require('./Reaction');
 // Schema to create Thought model
 const thoughtSchema = new Schema(
   {
-    thoughtId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
     thoughtText: {
       type: String,
       required: true,
@@ -22,13 +18,16 @@ const thoughtSchema = new Schema(
       type: Date,
       default: Date.now(),
     },
-    reaction: [reactionSchema],
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
       getters: true,
     },
-  }
+  },
+  thoughtSchema.virtual('ReactionCount').get(function() {
+    return this.reactions.length;
+  })
 );
 
 const Thought = model('thought', thoughtSchema);
