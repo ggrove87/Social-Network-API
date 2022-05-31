@@ -12,7 +12,7 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
-      validate:{}
+      // validate:{}
     },
     thoughts: [
       {
@@ -32,12 +32,13 @@ const userSchema = new Schema(
       getters: true,  
       virtuals: true,
     },
-    _id: false,
+
   },
-  userSchema.virtual('FriendCount').get(function() {
-    return this.friends.length;
-  })
 );
+
+userSchema.virtual('FriendCount').get(function() {
+  return this.friends.length;
+});
 
 const User = model('user', userSchema);
 

@@ -9,7 +9,7 @@ module.exports = {
   },
   // Get a user
   getSingleUser(req, res) {
-    User.findOne({ _id: req.params.userName })
+    User.findOne({ userName: req.params.userName })
       .select('-__v')
       .then((user) =>
         !user
@@ -67,7 +67,7 @@ module.exports = {
   },
   removeFriend(req, res) {
     User.findOneAndUpdate(
-      { _id: req.params.userName },
+      { userName: req.params.userName },
       { $pull: { friends: req.params.userName } },
       { runValidators: true, new: true }
     )
