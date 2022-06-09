@@ -2,26 +2,13 @@ const { ObjectId } = require('mongoose').Types;
 const { Thought, User } = require('../models');
 
 // Aggregate function to get the number of thoughts overall
-const reactionCount = async () =>
+const thoughtCount = async () =>
   Thought.aggregate()
-    .count('reactionCount')
-    .then((reactionCount) => reactionCount);
+    .count('thoughtCount')
+    .then((thoughtCount) => thoughtCount);
 
 // Aggregate function for getting the total number of reactions using $sum
-const grade = async (thoughtId) =>
-  Thought.aggregate([
-    // only include the given thought by using $match
-    { $match: { _id: ObjectId(thoughtId) } },
-    {
-      $unwind: '$reactions',
-    },
-    {
-      $group: {
-        _id: ObjectId(thoughtId),
-        reactionCount: { $sum: '$reactions' },
-      },
-    },
-  ]);
+
 
 module.exports = {
   // Get all thoughts
@@ -30,7 +17,7 @@ module.exports = {
       .then(async (thoughts) => {
         const thoughtObj = {
           thoughts,
-          reactionCount: await reactionCount(),
+          thoughtCount: await thoughtCount(),
         };
         return res.json(thoughtObj);
       })
@@ -109,7 +96,7 @@ module.exports = {
   removeReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $pull: { reaction: { reactionId: req.params.reactionId } } },
+      { $pull: { reactions: {reactionId:req.params.reactionId} } },
       { runValidators: true, new: true }
     )
       .then((thought) =>
